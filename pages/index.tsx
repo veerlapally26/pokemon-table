@@ -45,6 +45,14 @@ export default function Home({ pokemons, query, page, error }: Props) {
     return () => handler.cancel();
   }, [search]);
 
+  const goToPage = (newPage: number) => {
+    if (query) {
+      router.push(`/?query=${query}&page=${newPage}`);
+    } else {
+      router.push(`/?page=${newPage}`);
+    }
+  };
+
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-4 text-center">Pokémon List</h1>
@@ -65,18 +73,18 @@ export default function Home({ pokemons, query, page, error }: Props) {
           <PokemonTable pokemons={pokemons} />
           {!query && (
             <div className="flex justify-center mt-4 gap-4">
-              <a
-                href={`/?page=${Math.max(page - 1, 0)}`}
+              <button
+                onClick={() => goToPage(Math.max(page - 1, 0))}
                 className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
               >
                 Prev
-              </a>
-              <a
-                href={`/?page=${page + 1}`}
+              </button>
+              <button
+                onClick={() => goToPage(page + 1)}
                 className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
               >
                 Next
-              </a>
+              </button>
             </div>
           )}
         </>
